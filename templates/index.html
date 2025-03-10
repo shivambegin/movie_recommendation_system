@@ -1,19 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie Recommendation</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
   </head>
-<body>
-    <h1>Movie Recommendation System</h1>
-    <input type="text" id="searchInput" placeholder="Search for a movie...">
-    <button onclick="searchMovies()">Search</button>
+  <body>
+    <header>
+      <h1>Movie Recommendation System</h1>
+    </header>
 
-    <div id="movieList"></div>
+    <div class="container">
+      <h2>Choose a Movie</h2>
+      <form method="POST" action="/recommend">
+        <select name="movies" required>
+          <option value="" disabled selected>Select a movie</option>
+          {% for title in titles %}
+          <option value="{{ title }}">{{ title }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Recommend</button>
+      </form>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %} {% if recommendation %}
+      <div class="recommendations">
+        <h2>Recommendations for "{{ selected_movie }}":</h2>
+        <ul>
+          {% for movie in recommendation %}
+          <li>{{ movie }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Movie Recommendation System</p>
+    </footer>
   </body>
 </html>
